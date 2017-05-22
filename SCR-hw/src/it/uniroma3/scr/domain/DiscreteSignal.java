@@ -23,11 +23,11 @@ public class DiscreteSignal {
 	}
 
 	//ridenominare la variabile
-	public int getPowerValue(){
-		int powerSum=0;
+	public double getPowerValue(){
+		Double powerSum=0.0;
 		for(Sample s: this.samples){
 			if(s!=null)
-				powerSum+=Math.pow(s.getModulus(), 2);
+				powerSum+=Math.pow(s.getModulus(),2.0);
 		}
 		return powerSum/this.samples.size();
 	}
