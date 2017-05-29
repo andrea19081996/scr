@@ -26,11 +26,11 @@ public class Main {
 		for(int j=1;j<=3;j++){
 			io.println("Sequenza"+j);
 			for(int i=1;i<=4;i++){
-				io.println("Osservazione"+i+"snr"+snratios.get(i-1)+" ");
+				io.print("Osservazione"+i+"snr"+snratios.get(i-1)+" ");
 				DigitalSignal signal= new SignalLoader("resources/Sequenze/Sequenza_"+j+"/output_"+i+".dat").loadSignal();
 				io.print(terminal.findPrimaryUser(signal, snratios.get(i-1))+"\t");
 			}
-			System.out.println();
+			io.println("");
 		}
 	}
 }
