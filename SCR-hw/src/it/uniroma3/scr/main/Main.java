@@ -12,13 +12,16 @@ import it.uniroma3.scr.utilities.UserInterfaceConsole;
 
 public class Main {
 	public static void main(String[] args) throws FileNotFoundException, IOException{
+		int signalLenght=1000000;
+		//usare una lista costante
+		//sistemare la formattazione del testo stampato sulla console
 		List<Double> snratios=new ArrayList<>();
 		UserInterface io=new UserInterfaceConsole();
 		snratios.add(-3.0);
 		snratios.add(2.0);
 		snratios.add(-8.0);
 		snratios.add(-13.0);
-		CognitiveTerminal terminal=new CognitiveTerminal(snratios,1000000); //definire una variabile per la lunghezza delle sequenze
+		CognitiveTerminal terminal=new CognitiveTerminal(snratios,signalLenght); //definire una variabile per la lunghezza delle sequenze
 
 
 		for(Double snr: snratios)

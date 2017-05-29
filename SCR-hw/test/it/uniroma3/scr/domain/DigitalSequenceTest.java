@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DiscreteSequenceTest {
+public class DigitalSequenceTest {
 	DigitalSignal fourSamplesSignal;
 	DigitalSignal tenSamplesSignal;
 	Sample s1,s2,s3,s4,s5,s6,s7,s8,s9,s10;
