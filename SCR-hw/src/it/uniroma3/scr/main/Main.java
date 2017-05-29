@@ -17,6 +17,10 @@ public class Main {
 		snratios.add(-8.0);
 		snratios.add(-13.0);
 		CognitiveTerminal terminal=new CognitiveTerminal(snratios,1000000); //definire una variabile per la lunghezza delle sequenze
+		/*
+		System.out.println("Sequenza_1");
+		DiscreteSignal signal= new SignalLoader("resources/Sequenze/Sequenza_1/output_1.dat").loadSignal();*/
+
 
 		for(Double snr: snratios)
 			System.out.println("soglia="+terminal.getThreshold(snr)+" snr=" +snr);

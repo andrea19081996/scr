@@ -22,8 +22,9 @@ public class SignalLoader {
 	}
 
 	//cambiare il nome della variabile di ritorno
-	public DiscreteSignal loadSignal() throws IOException{
-		DiscreteSignal loadedSignal=new DiscreteSignal();
+	public DiscreteSignal loadSignal(){
+		try{
+			DiscreteSignal loadedSignal=new DiscreteSignal();
 		String line;
 		while((line=reader.readLine())!=null){
 			Sample s= readSample(line);
@@ -31,6 +32,10 @@ public class SignalLoader {
 		}
 		reader.close();
 		return loadedSignal;
+		}
+		catch(IOException e){
+			throw new IllegalArgumentException("Formato non valido");
+		}
 	}
 
 	private Sample readSample(String line){

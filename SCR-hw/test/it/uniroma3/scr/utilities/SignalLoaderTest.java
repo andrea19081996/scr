@@ -25,6 +25,11 @@ public class SignalLoaderTest {
 		DiscreteSignal loadedSignal=existingFileLoader.loadSignal();
 		List<Sample> samplesFromLoadedSignal=loadedSignal.getSamples();
 		assertEquals(1000000,samplesFromLoadedSignal.size());
+		for(Sample s: samplesFromLoadedSignal){
+			assertNotNull(s);
+			assertNotNull(s.getImaginary());
+			assertNotNull(s.getReal());
+		}
 		Sample firstSample=samplesFromLoadedSignal.get(0);
 		assertEquals(-0.35596,firstSample.getReal(),0);
 		assertEquals(-2.7268,firstSample.getImaginary(),0);

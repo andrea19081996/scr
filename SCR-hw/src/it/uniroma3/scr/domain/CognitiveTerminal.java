@@ -12,12 +12,13 @@ import java.util.Random;
 
 public class CognitiveTerminal {
 	private static final int BLOCK_SIZE = 1000;
-	private final int numberOfSequences; //cambiare il nome
+	private static final int NUMBER_OF_NOISE_SEQUENCES=1000;
+	private final int signalLenght;
 	private static final Double PFA=0.01;
 	private Map<Double,Double> snr2Threshold;
 
 	public CognitiveTerminal(List<Double> snratios, int sequenceSize){
-		this.numberOfSequences=sequenceSize/BLOCK_SIZE;
+		this.signalLenght=sequenceSize;
 		initialize(snratios); 
 	}
 
@@ -37,31 +38,33 @@ public class CognitiveTerminal {
 	}
 //cambiarlo poi in private e mettere un metodo getSoglie()
 	//valutare l'introduzione di un oggetto Calculator
+	//sostituire numberOfSequences con numberOfNoiseSequences
 	private double calculateThreshold(double snr) {
-		List<DiscreteSignal> noiseSequences=new ArrayList<>(this.numberOfSequences); 
+		List<DiscreteSignal> noiseSequences=new ArrayList<>(NUMBER_OF_NOISE_SEQUENCES); 
 		Double linearSNR=Math.pow(10,snr/10);
 		Double noisePower=1/linearSNR;
 		Double threshold;
-		for(int i=0;i<this.numberOfSequences;i++){
+		for(int i=0;i<NUMBER_OF_NOISE_SEQUENCES;i++){
 			DiscreteSignal noise=generateNoiseSequence(noisePower);
 			noiseSequences.add(noise);
 		}
-		List<Double> noiseSequencesPowerValues=new ArrayList<>(this.numberOfSequences);	
+		List<Double> noiseSequencesPowerValues=new ArrayList<>(NUMBER_OF_NOISE_SEQUENCES);	
 		for(DiscreteSignal noise: noiseSequences){
 			double power=noise.getPowerValue();
 			noiseSequencesPowerValues.add(power);
 		}
 		Collections.sort(noiseSequencesPowerValues);
-		int thresholdIndex=(int) (this.numberOfSequences-this.numberOfSequences*PFA-1);
+		int thresholdIndex=(int) (NUMBER_OF_NOISE_SEQUENCES-NUMBER_OF_NOISE_SEQUENCES*PFA-1);
 		threshold=noiseSequencesPowerValues.get(thresholdIndex);
 		return threshold;
 	}
-
+	
+	//cambiare il valore massimo del for
 	private DiscreteSignal generateNoiseSequence(Double noisePower) {
 		DiscreteSignal noise=new DiscreteSignal();
 		Sample s;
 		Random random=new Random();
-		for(int i=0;i<BLOCK_SIZE;i++){
+		for(int i=0;i<this.signalLenght/NUMBER_OF_NOISE_SEQUENCES;i++){
 			Double realPart=random.nextGaussian()*Math.sqrt(noisePower/2);	
 			Double imaginaryPart=random.nextGaussian()*Math.sqrt(noisePower/2); 
 			s=new Sample(realPart,imaginaryPart);
@@ -79,7 +82,7 @@ public class CognitiveTerminal {
 		if(!this.snr2Threshold.containsKey(snr))
 			throw new IllegalArgumentException("Valore di SNR non valido");
 		double threshold=this.snr2Threshold.get(snr);
-		List<DiscreteSignal> signalFragments=signal.getFragments(this.numberOfSequences);
+		List<DiscreteSignal> signalFragments=signal.getFragments(this.signalLenght/BLOCK_SIZE);
 		Double pDetection;
 		Double cont=0.0;
 		for(DiscreteSignal fragment: signalFragments){
