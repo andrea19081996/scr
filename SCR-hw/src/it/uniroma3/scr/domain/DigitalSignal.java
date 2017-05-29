@@ -3,10 +3,10 @@ package it.uniroma3.scr.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscreteSignal {
+public class DigitalSignal {
 	private List<Sample> samples;
 
-	public DiscreteSignal(){
+	public DigitalSignal(){
 		samples=new ArrayList<>();
 	}
 
@@ -24,7 +24,7 @@ public class DiscreteSignal {
 
 	//ridenominare la variabile
 	public double getPowerValue(){
-		Double powerSum=0.0;
+		double powerSum=0.0;
 		for(Sample s: this.samples){
 			if(s!=null)
 				powerSum+=Math.pow(s.getModulus(),2.0);
@@ -32,16 +32,16 @@ public class DiscreteSignal {
 		return powerSum/this.samples.size();
 	}
 
-	public List<DiscreteSignal> getFragments(int fragmentNumber) {
-		List<DiscreteSignal> signalFragments=new ArrayList<>();
-		DiscreteSignal fragment=new DiscreteSignal();
+	public List<DigitalSignal> getFragments(int fragmentNumber) {
+		List<DigitalSignal> signalFragments=new ArrayList<>();
+		DigitalSignal fragment=new DigitalSignal();
 		int cont=0;
 		for(Sample s: this.getSamples()){
 			fragment.addSample(s);
 			cont++;
 			if(cont==this.getSamples().size()/fragmentNumber){
 				signalFragments.add(fragment);
-				fragment=new DiscreteSignal();
+				fragment=new DigitalSignal();
 				cont=0;
 			}
 		}

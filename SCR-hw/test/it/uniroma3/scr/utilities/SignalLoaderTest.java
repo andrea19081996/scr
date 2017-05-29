@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import it.uniroma3.scr.domain.DiscreteSignal;
+import it.uniroma3.scr.domain.DigitalSignal;
 import it.uniroma3.scr.domain.Sample;
 //fare test file non esistente e sequenza 1 del file 1
 public class SignalLoaderTest {
@@ -22,7 +22,7 @@ public class SignalLoaderTest {
 	}
 	@Test
 	public void testReadExistingFile() throws IOException {
-		DiscreteSignal loadedSignal=existingFileLoader.loadSignal();
+		DigitalSignal loadedSignal=existingFileLoader.loadSignal();
 		List<Sample> samplesFromLoadedSignal=loadedSignal.getSamples();
 		assertEquals(1000000,samplesFromLoadedSignal.size());
 		for(Sample s: samplesFromLoadedSignal){

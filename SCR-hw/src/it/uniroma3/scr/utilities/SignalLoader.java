@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import it.uniroma3.scr.domain.DiscreteSignal;
+import it.uniroma3.scr.domain.DigitalSignal;
 import it.uniroma3.scr.domain.Sample;
 //da ultimare
 //testare la dimensione della signal letta da file
@@ -22,9 +22,9 @@ public class SignalLoader {
 	}
 
 	//cambiare il nome della variabile di ritorno
-	public DiscreteSignal loadSignal(){
+	public DigitalSignal loadSignal(){
 		try{
-			DiscreteSignal loadedSignal=new DiscreteSignal();
+			DigitalSignal loadedSignal=new DigitalSignal();
 		String line;
 		while((line=reader.readLine())!=null){
 			Sample s= readSample(line);

@@ -1,4 +1,4 @@
-package it.uniroma3.scr.domain;		//ridenominare il package
+package it.uniroma3.scr.domain;		
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,12 +9,13 @@ import java.util.Random;
 //valutare se distribuire le responsabilita di CognitiveTerminal fra altre nuove classi
 //valutare la presenza di un noise generator che prende come parametro il numero di noise sequences da generare
 //valutare se mettere le costanti come attributi semplici
+//commentare con javadoc le classi e spiegare il significato delle costanti 
 
 public class CognitiveTerminal {
-	private static final int BLOCK_SIZE = 1000;
+	private static final int BLOCK_SIZE = 1000;	 
 	private static final int NUMBER_OF_NOISE_SEQUENCES=1000;
 	private final int signalLenght;
-	private static final Double PFA=0.01;
+	private static final double PFA=0.01;
 	private Map<Double,Double> snr2Threshold;
 
 	public CognitiveTerminal(List<Double> snratios, int sequenceSize){
@@ -26,30 +27,25 @@ public class CognitiveTerminal {
 		if(snratios==null || snratios.isEmpty())
 			throw new IllegalArgumentException("Lista di SNR nulla o vuota");
 		this.snr2Threshold=new HashMap<>();
-		Double threshold;
+		double threshold;
 		for(Double snr: snratios){
-			if(snr!=null){
 			threshold=calculateThreshold(snr);
 			this.snr2Threshold.put(snr, threshold);
-			}
-			else
-				throw new IllegalArgumentException("valore NULL di SNR");
 		}
 	}
-//cambiarlo poi in private e mettere un metodo getSoglie()
 	//valutare l'introduzione di un oggetto Calculator
 	//sostituire numberOfSequences con numberOfNoiseSequences
 	private double calculateThreshold(double snr) {
-		List<DiscreteSignal> noiseSequences=new ArrayList<>(NUMBER_OF_NOISE_SEQUENCES); 
+		List<DigitalSignal> noiseSequences=new ArrayList<>(NUMBER_OF_NOISE_SEQUENCES); 
 		Double linearSNR=Math.pow(10,snr/10);
 		Double noisePower=1/linearSNR;
 		Double threshold;
 		for(int i=0;i<NUMBER_OF_NOISE_SEQUENCES;i++){
-			DiscreteSignal noise=generateNoiseSequence(noisePower);
+			DigitalSignal noise=generateNoiseSequence(noisePower);
 			noiseSequences.add(noise);
 		}
 		List<Double> noiseSequencesPowerValues=new ArrayList<>(NUMBER_OF_NOISE_SEQUENCES);	
-		for(DiscreteSignal noise: noiseSequences){
+		for(DigitalSignal noise: noiseSequences){
 			double power=noise.getPowerValue();
 			noiseSequencesPowerValues.add(power);
 		}
@@ -59,9 +55,8 @@ public class CognitiveTerminal {
 		return threshold;
 	}
 	
-	//cambiare il valore massimo del for
-	private DiscreteSignal generateNoiseSequence(Double noisePower) {
-		DiscreteSignal noise=new DiscreteSignal();
+	private DigitalSignal generateNoiseSequence(Double noisePower) {
+		DigitalSignal noise=new DigitalSignal();
 		Sample s;
 		Random random=new Random();
 		for(int i=0;i<this.signalLenght/NUMBER_OF_NOISE_SEQUENCES;i++){
@@ -74,18 +69,17 @@ public class CognitiveTerminal {
 	}
 
 	//c'è un nome migliore?
-	//gestire eventuali eccezioni
 	//valutare se lasciare il tipo di ritorno a pd o mettere un boolean
-	public Double checkPUSignalPresence(DiscreteSignal signal, Double snr){
+	public Double findPrimaryUser(DigitalSignal signal, Double snr){
 		if(signal== null || signal.getSamples().isEmpty())
 			throw new IllegalArgumentException("Segnale NULL o privo di campioni");
 		if(!this.snr2Threshold.containsKey(snr))
 			throw new IllegalArgumentException("Valore di SNR non valido");
 		double threshold=this.snr2Threshold.get(snr);
-		List<DiscreteSignal> signalFragments=signal.getFragments(this.signalLenght/BLOCK_SIZE);
+		List<DigitalSignal> signalFragments=signal.getFragments(this.signalLenght/BLOCK_SIZE);
 		Double pDetection;
 		Double cont=0.0;
-		for(DiscreteSignal fragment: signalFragments){
+		for(DigitalSignal fragment: signalFragments){
 			Double power=fragment.getPowerValue();
 			if(power>threshold)
 				cont++;
