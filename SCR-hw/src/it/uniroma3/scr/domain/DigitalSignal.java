@@ -2,7 +2,10 @@ package it.uniroma3.scr.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Classe che modella un sequenza discreta
+ * @author Jerin George Mathew
+ */
 public class DigitalSignal {
 	private List<Sample> samples;
 
@@ -21,17 +24,27 @@ public class DigitalSignal {
 	public void addSample(Sample s){
 		samples.add(s);
 	}
-
-	//ridenominare la variabile
+	
+	/**
+	 * Calcola la potenza del segnale normalizzata 
+	 * alla lunghezza della stessa
+	 * @return la potenza del segnale
+	 */
 	public double getPowerValue(){
-		double powerSum=0.0;
+		double sum=0.0;
 		for(Sample s: this.samples){
 			if(s!=null)
-				powerSum+=Math.pow(s.getModulus(),2.0);
+				sum+=Math.pow(s.getModulus(),2.0);
 		}
-		return powerSum/this.samples.size();
+		return sum/this.samples.size();
 	}
-
+	
+	/**
+	 * Consente di frammentare il segnale in una serie di blocchi specificati
+	 * come parametro
+	 * @param fragmentNumber il numero di blocchi in cui deve essere suddiviso il segnale
+	 * @return la lista di blocchi in cui è stato frammentato il segnale
+	 */
 	public List<DigitalSignal> getFragments(int fragmentNumber) {
 		List<DigitalSignal> signalFragments=new ArrayList<>();
 		DigitalSignal fragment=new DigitalSignal();

@@ -1,5 +1,9 @@
 package it.uniroma3.scr.domain;
-
+/**
+ * Classe che modella un campione complesso
+ * @author Jerin George Mathew
+ *
+ */
 public class Sample {
 
 

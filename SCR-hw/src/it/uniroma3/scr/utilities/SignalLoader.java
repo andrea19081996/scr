@@ -7,9 +7,13 @@ import java.io.IOException;
 
 import it.uniroma3.scr.domain.DigitalSignal;
 import it.uniroma3.scr.domain.Sample;
-//da ultimare
-//testare la dimensione della signal letta da file
-//usare lo split
+
+/**
+ * Classe di utility usata per caricare una sequenza di campioni
+ * da file, noto il file path. Il file deve essere composto da due colonne 
+ * di numeri separati da un \t
+ * @author Jerin George Mathew
+ */
 public class SignalLoader {
 	private BufferedReader reader;
 
@@ -17,11 +21,15 @@ public class SignalLoader {
 		try{
 			this.reader=new BufferedReader(new FileReader(filePath));}
 		catch(FileNotFoundException e){
-			throw new IllegalArgumentException("File non esistente");
+			throw new IllegalArgumentException("File non esistente!");
 		}
 	}
-
-	//cambiare il nome della variabile di ritorno
+	
+	/**
+	 * Carica una sequenza da file
+	 * @return la sequenza letta da file
+	 * @throws IllegalArgumentException se il file non è nel formato previsto
+	 */
 	public DigitalSignal loadSignal(){
 		try{
 			DigitalSignal loadedSignal=new DigitalSignal();
@@ -34,10 +42,15 @@ public class SignalLoader {
 		return loadedSignal;
 		}
 		catch(IOException e){
-			throw new IllegalArgumentException("Formato non valido");
+			throw new IllegalArgumentException("Formato del file non valido!");
 		}
 	}
-
+	/**
+	 * Legge una riga e la separa usando il carattere \t per poi generare 
+	 * un campione inizializzato con i valori della line 
+	 * @param line la riga letta da file
+	 * @return un campione inizializzato con i valori letti da line
+	 */
 	private Sample readSample(String line){
 		String[] splittedLine=line.split("\t");
 		double realPart=Double.parseDouble(splittedLine[0]);

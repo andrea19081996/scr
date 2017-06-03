@@ -5,9 +5,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-//valutare se mettere le costanti come attributi semplici
-//commentare con javadoc le classi e spiegare il significato delle costanti 
-
+/**
+ * Classe che modella il terminale cognitivo, che dispone di una 
+ * mappa SNR->soglia e i metodi per il calcolo della soglia per un dato 
+ * SNR e per l'individuazione dell'utente primario 
+ * secondo la tecnica dell'energy detector.
+ * @author Jerin George Mathew
+ */
 public class CognitiveTerminal {
 	private static final int BLOCK_SIZE = 1000;	 
 	private static final int NUMBER_OF_NOISE_SEQUENCES=1000;
@@ -20,6 +24,11 @@ public class CognitiveTerminal {
 		initialize(snratios); 
 	}
 
+	/**
+	 * Metodo che consente l'inizializzazione della mappa SNR->soglie
+	 * del terminale cognitivo
+	 * @param snratios 
+	 */
 	private void initialize(List<Double> snratios) {
 		if(snratios==null || snratios.isEmpty())
 			throw new IllegalArgumentException("Lista di SNR nulla o vuota");
@@ -31,6 +40,12 @@ public class CognitiveTerminal {
 		}
 	}
 
+	/**
+	 * Calcola la soglia per un dato SNR e una data
+	 * probabilita di falso allarme
+	 * @param snr il valore di SNR per cui si vuole calcolare la soglia
+	 * @return il valore di soglia corrispondente al valore di SNR passato come parametro
+	 */
 	private double calculateThreshold(double snr) {
 		double linearSNR=Math.pow(10,snr/10);
 		double noisePower=SIGNAL_POWER/linearSNR;
@@ -48,10 +63,23 @@ public class CognitiveTerminal {
 		return threshold;
 	}
 	
+	/**
+	 * Restituisce il valore di soglia corrispondente ad un 
+	 * particolare valore di SNR
+	 * @param snr il valore id 
+	 * @return il valore di soglia corrispondente al valore di SNR passato come parametro
+	 */
 	public double getThreshold(Double snr){
 		return this.snr2Threshold.get(snr);
 	}
 	
+	/**
+	 * Restituisce la probabilita di detection per un dato segnale, noto il valore
+	 * di SNR a cui il segnale è stato osservato
+	 * @param signal il segnale in input usato per calcolare la probabilita di detection
+	 * @param snr il valore di SNR a cui è stato osservato il segnale
+	 * @return la probabilita di detection relativa a signal per quel valore di snr
+	 */
 	public Double findPrimaryUser(DigitalSignal signal, Double snr){
 		if(signal== null || signal.getSamples().isEmpty())
 			throw new IllegalArgumentException("Segnale NULL o privo di campioni");

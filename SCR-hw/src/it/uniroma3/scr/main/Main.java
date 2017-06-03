@@ -10,6 +10,12 @@ import it.uniroma3.scr.utilities.SignalLoader;
 import it.uniroma3.scr.utilities.UserInterface;
 import it.uniroma3.scr.utilities.UserInterfaceConsole;
 
+/**
+ * Classe principale che consente di individuare l'eventuale
+ * presenza di un utente primario dati delle sequenze con 
+ * un SNR noto a priori
+ * @author Jerin George Mathew
+ */
 public class Main {
 	private UserInterface io;
 	private List<Double> snratios;
@@ -23,22 +29,29 @@ public class Main {
 	}
 	
 	public static void main(String[] args){
-		//inserire i javadoc
 		Main main=new Main();
 		main.printSNR2ThresholdValues();
 		main.printAllSignalDetectionProbability(3);
 	}
 	
+	/**
+	 * Stampa i valori delle soglie corrispondenti agli SNR specificati
+	 */
 	private void printSNR2ThresholdValues(){
 		this.io.println("\tTabella SNR -> Soglia");
 		this.io.println("\t---------------------");
 		this.io.println("\tSNR\t\tSoglia");
 		for(Double snr: this.snratios)
 			this.io.println("\t"+snr+"\t|\t"+this.terminal.getThreshold(snr));
-		this.io.println("");
-		this.io.println("");
+		this.io.println();
+		this.io.println();
 	}
 	
+	/**
+	 * Stampa per ciascuna sequenza i corrispondenti valori di detection
+	 * per ciascuna osservazione della sequenza stessa
+	 * @param sequenceNumber, la sequenza di cui si vuole conoscere la probabilita di detection
+	 */
 	private void printSignalDetectionProbability(int sequenceNumber){
 		this.io.print("\tSequenza "+sequenceNumber);
 		for(int i=1;i<=this.snratios.size();i++){
@@ -47,9 +60,15 @@ public class Main {
 			String truncatedPDetectionValue=new DecimalFormat("#.###").format(pDetection);
 			this.io.print("\t\t"+this.snratios.get(i-1)+"dB -> "+truncatedPDetectionValue+"%");
 		}
-		this.io.println("");
+		this.io.println();
 	}
 	
+	/**
+	 * Stampa le probabilita di detection di tutte le sequenze
+	 * per ciascuna osservazione della sequenza stessa
+	 * @param numberOfSequences il numero di sequenze di cui si vogliono
+	 * conoscere le probabilita di detection
+	 */
 	private void printAllSignalDetectionProbability(int numberOfSequences){
 		this.io.println("\tTabella Segnale -> Probabilita di detection in base a SNR");
 		this.io.println("\t---------------------------------------------------------");
