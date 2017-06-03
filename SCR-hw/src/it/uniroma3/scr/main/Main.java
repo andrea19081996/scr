@@ -11,23 +11,18 @@ import it.uniroma3.scr.utilities.UserInterface;
 import it.uniroma3.scr.utilities.UserInterfaceConsole;
 
 public class Main {
-	private final static int SIGNAL_LENGHT=1000000;
 	private UserInterface io;
 	private List<Double> snratios;
-	private CognitiveTerminal terminal; //definire una variabile per la lunghezza delle sequenze
+	private CognitiveTerminal terminal;
 
 	public Main(){
 		this.io=new UserInterfaceConsole();
 		this.snratios=new ArrayList<>();
 		Collections.addAll(snratios, -3.0,2.0,-8.0,-13.0);
-		this.terminal=new CognitiveTerminal(snratios,SIGNAL_LENGHT);
+		this.terminal=new CognitiveTerminal(snratios);
 	}
 	
 	public static void main(String[] args){
-		//definire una costante per il numero di sequenze
-		//definire una costante per il numero di snr
-		//usare una lista costante
-		//sistemare la formattazione del testo stampato sulla console
 		//inserire i javadoc
 		Main main=new Main();
 		main.printSNR2ThresholdValues();
@@ -59,9 +54,8 @@ public class Main {
 		this.io.println("\tTabella Segnale -> Probabilita di detection in base a SNR");
 		this.io.println("\t---------------------------------------------------------");
 
-		for(int j=1;j<=numberOfSequences;j++){
+		for(int j=1;j<=numberOfSequences;j++)
 			printSignalDetectionProbability(j);
-		}
 	}
 
 }
