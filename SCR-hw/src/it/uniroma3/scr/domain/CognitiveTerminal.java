@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 /**
  * Classe che modella il terminale cognitivo, che dispone di una 
- * mappa SNR->soglia e i metodi per il calcolo della soglia per un dato 
+ * mappa SNR->soglia, i metodi per il calcolo della soglia per un dato 
  * SNR e per l'individuazione dell'utente primario 
  * secondo la tecnica dell'energy detector.
  * @author Jerin George Mathew
@@ -27,7 +27,7 @@ public class CognitiveTerminal {
 	/**
 	 * Metodo che consente l'inizializzazione della mappa SNR->soglie
 	 * del terminale cognitivo
-	 * @param snratios 
+	 * @param snratios la lista di SNR
 	 */
 	private void initialize(List<Double> snratios) {
 		if(snratios==null || snratios.isEmpty())
@@ -66,7 +66,7 @@ public class CognitiveTerminal {
 	/**
 	 * Restituisce il valore di soglia corrispondente ad un 
 	 * particolare valore di SNR
-	 * @param snr il valore id 
+	 * @param snr il valore di SNR 
 	 * @return il valore di soglia corrispondente al valore di SNR passato come parametro
 	 */
 	public double getThreshold(Double snr){

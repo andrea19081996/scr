@@ -12,8 +12,8 @@ import it.uniroma3.scr.utilities.UserInterfaceConsole;
 
 /**
  * Classe principale che consente di individuare l'eventuale
- * presenza di un utente primario dati delle sequenze con 
- * un SNR noto a priori
+ * presenza di un utente primario date delle sequenze lette da file
+ * e osservate piu volte ad un SNR noto a priori
  * @author Jerin George Mathew
  */
 public class Main {
